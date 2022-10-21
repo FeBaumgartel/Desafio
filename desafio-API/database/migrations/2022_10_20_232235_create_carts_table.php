@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('vendas', function (Blueprint $table) {
+        Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedDecimal('distancia');
-            $table->string('subtotal');
-            $table->string('frete');
-            $table->string('total');
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('cart_id');
+            $table->integer('quantity');
+            $table->unsignedDecimal('value');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('password_resets');
+        Schema::dropIfExists('carts');
     }
 };

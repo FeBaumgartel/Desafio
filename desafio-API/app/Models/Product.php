@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Produto extends Model
+class Product extends Model
 {
-    protected $table = 'produtos';
+    protected $table = 'products';
 
     /**
      * The attributes that are mass assignable.
@@ -14,9 +14,9 @@ class Produto extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'nome',
-        'peso',
-        'valor',
-        'estoque'
+        'name',
+        'weight',
+        'value',
+        'inventory'
     ];
 }

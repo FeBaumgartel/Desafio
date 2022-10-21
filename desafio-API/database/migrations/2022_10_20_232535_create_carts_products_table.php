@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('vendas_produtos', function (Blueprint $table) {
+        Schema::create('carts_products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_produto');
-            $table->unsignedBigInteger('id_venda');
-            $table->integer('quantidade');
-            $table->unsignedDecimal('valor');
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('cart_id');
+            $table->integer('quantity');
+            $table->unsignedDecimal('value');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('password_resets');
+        Schema::dropIfExists('carts_products');
     }
 };

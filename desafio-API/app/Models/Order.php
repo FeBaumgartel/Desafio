@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Venda extends Model
+class Order extends Model
 {
-    protected $table = 'vendas';
+    protected $table = 'orders';
 
     /**
      * The attributes that are mass assignable.
@@ -14,14 +14,14 @@ class Venda extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'distancia',
+        'distance',
         'subtotal',
-        'frete',
+        'shipping',
         'total',
     ];
 
-    public function produtos()
+    public function products()
     {
-        return $this->belongsToMany(Produto::class, 'vendas_produtos', 'id_venda', 'id_produto');
+        return $this->belongsToMany(Product::class, 'orders_products', 'id_order', 'id_product');
     }
 }
