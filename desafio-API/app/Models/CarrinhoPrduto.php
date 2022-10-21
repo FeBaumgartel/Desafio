@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class VendaProduto extends Model
+class CarrinhoProduto extends Model
 {
-    protected $table = 'vendas_produtos';
+    protected $table = 'carrinhos_produtos';
 
     /**
      * The attributes that are mass assignable.
@@ -18,8 +18,8 @@ class VendaProduto extends Model
     {
         return $this->belongsTo(Produto::class, 'id_produto');
     }
-    public function venda()
+    public function carrinho()
     {
-        return $this->belongsTo(Venda::class, 'id_venda');
+        return $this->belongsTo(Carrinho::class, 'id_carrinho');
     }
 }
