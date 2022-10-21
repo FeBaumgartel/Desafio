@@ -8,22 +8,23 @@ class Cart extends Model
 {
     protected $table = 'carts';
 
-    protected $appends = ['weight_total'];
+    protected $appends = ['total_weight'];
 
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'carts_products', 'id_cart', 'id_product');
+        return $this->belongsToMany(Product::class, 'carts_products', 'cart_id', 'product_id');
     }
 
-    public function getPesoTotalAttribute(){
-        $carinhoProducts = CartProduct::with('product')->where('id_cart', $this->id)->get();
+    //TODO - transformar em sum
+    public function getTotalWeightAttribute(){
+        $cartProducts = CartProduct::with('product')->where('cart_id', $this->attributes['id'])->get();
 
-        $weightTotal = 0;
+        $totalWeight = 0;
 
-        foreach ($carinhoProducts as $product){
-            $weightTotal += $product->quantity * $product->product->weight;
+        foreach ($cartProducts as $product){
+            $totalWeight += $product->quantity * $product->product->weight;
         }
-        return $weightTotal;
+        return $totalWeight;
     }
 }

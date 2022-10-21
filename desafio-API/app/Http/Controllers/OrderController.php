@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests\OrderRequest;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderProduct;
@@ -23,7 +23,7 @@ class OrderController extends Controller
 
     public function create(OrderRequest $request){
         $order = new Order();
-        $cart = Cart::with('products')->find($request->id_cart);
+        $cart = Cart::with('products')->find($request->cart_id);
 
         $order->distance = $cart->distance;
         $order->shipping = $cart->shipping;
@@ -33,10 +33,10 @@ class OrderController extends Controller
 
         foreach ($$cart->products as $cartProduct){
             $orderProduct = new OrderProduct();
-            $orderProduct->id_product = $cartProduct->id_product;
+            $orderProduct->product_id = $cartProduct->product_id;
             $orderProduct->quantity = $cartProduct->quantity;
             $orderProduct->subtotal = $cartProduct->subtotal;
-            $orderProduct->id_order = $order->id;
+            $orderProduct->order_id = $order->id;
             $orderProduct->save();
         }
 

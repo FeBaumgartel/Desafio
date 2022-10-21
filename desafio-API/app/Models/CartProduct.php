@@ -16,10 +16,10 @@ class CartProduct extends Model
 
     public function products()
     {
-        return $this->belongsTo(Product::class, 'id_product');
+        return $this->belongsTo(Product::class, 'product_id');
     }
     public function cart()
     {
-        return $this->belongsTo(Cart::class, 'id_cart');
+        return $this->belongsTo(Cart::class, 'cart_id');
     }
 }
