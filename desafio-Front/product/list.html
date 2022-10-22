@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>index</title>
+    </head>
+    <body>
+        <button id="return">return</button> 
+        <table id="tabela">
+            <thead>
+                <th>Nome</th>
+                <th>Peso</th>
+                <th>Valor</th>
+                <th>Estoque</th>
+                <th>Editar</th>
+            </thead>
+            <tbody id="corpo">
+
+            </tbody>
+        </table> 
+    </body>
+</html>
+<script src="../js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.ajax({
+            url: "localhost:8000/api/products",
+            dataType: "application/json",
+            type: "GET",
+            headers:{contentType: "application/json"},
+            success: function(data){
+                data.forEach(element => {
+                    $("#corpo").append(`<tr><td>${element.name}</td><td>${element.weight}</td><td>${element.value}</td><td>${element.inventory}</td><td onclick="editProduct(${element.id})">edit</td></tr>`)
+                });
+            }
+        })
+    })
+
+    function editProduct(id){
+        
+        window.location = 'form.html?product=' + id;
+    }
+
+    $("#return").click(function(){
+        
+        window.location = '../index.html';
+    })
+</script>

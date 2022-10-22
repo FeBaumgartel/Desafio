@@ -1,0 +1,54 @@
+<html>
+    <body>
+        <input type="hidden" id="id">
+        <input type="text" id="name">
+        <input type="text" id="weight">
+        <input type="text" id="value">
+        <input type="text" id="inventory">
+
+        <button id="save">save</button>
+    </body>
+</html>
+
+<script src="../js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const id = urlParams.get('id')
+        if(id){
+            $.ajax({
+            url: "localhost:8000/api/products/"+id,
+            dataType: "application/json",
+            type: "GET",
+            headers:{contentType: "application/json"},
+            success: function(data){
+                $("#id").val(id)
+                $("#name").val(data.name)
+                $("#weight").val(data.weight)
+                $("#value").val(data.value)
+                $("#inventory").val(data.inventory)
+            }
+        })
+        }
+    })
+
+    $("#save").click(function (){
+        $.ajax({
+            url: "localhost:8000/api/products/"+id,
+            dataType: "application/json",
+            type: id ? "PATCH" : "POST",
+            headers:{contentType: "application/json"},
+            data:{
+                name:$("#name").val(),
+                weight:$("#weight").val(),
+                value:$("#value").val(),
+                inventory:$("#inventory").val()
+            },
+            success: function(data){
+        window.location.href = 'list.html';
+            }
+        })
+    })
+
+</script>
