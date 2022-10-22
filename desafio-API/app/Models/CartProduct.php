@@ -8,13 +8,14 @@ class CartProduct extends Model
 {
     protected $table = 'carts_products';
 
+    protected $fillable = ['product_id', 'quantity'];
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
 
-    public function products()
+    public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
     }

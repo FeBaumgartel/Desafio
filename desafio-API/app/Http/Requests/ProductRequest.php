@@ -2,17 +2,24 @@
 
 namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProductRequest extends FormRequest
 {
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, mixed>
+     */
     public function rules()
     {
-        $isPost = $this->isMethod('post');
         return [
-            'name' => Rule::requiredIf($isPost) . '|string|max:255',
-            'value'=> Rule::requiredIf($isPost) . '|numeric|regex:/^\d{1,8}(\.\d{1,2})?$/',
-            'weight'=> Rule::requiredIf($isPost) . '|numeric|regex:/^\d{1,8}(\.\d{1,2})?$/',
-            'inventory'=> 'integer'
+            'name' => 'sometimes|string|max:255',
+            'value'=> 'sometimes|numeric|regex:/^\d{1,8}(\.\d{1,2})?$/',
+            'weight'=> 'sometimes|numeric|regex:/^\d{1,8}(\.\d{1,2})?$/',
+            'inventory'=> 'sometimes|integer'
         ];
     }
+
 }

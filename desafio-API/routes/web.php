@@ -1,5 +1,9 @@
 <?php
 
+
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,20 +17,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('product')->group(function () {
-    Route::get('/', 'ProductController@get');
-    Route::get('/{id}', 'ProductController@find');
-    Route::post('/', 'ProductController@create');
-    Route::patch('/{id}', 'ProductController@edit');
+Route::prefix('products')->group(function () {
+    Route::get('/', [ProductController::class, 'get']);
+    Route::get('/{id}', [ProductController::class, 'find']);
+    Route::post('/', [ProductController::class, 'create']);
+    Route::patch('/{id}', [ProductController::class, 'edit']);
 });
-Route::prefix('cart')->group(function () {
-    Route::get('/', 'CartController@get');
-    Route::get('/{id}', 'CartController@find');
-    Route::post('/', 'CartController@create');
-    Route::post('/{id}', 'CartController@addProduct');
+
+Route::prefix('carts')->group(function () {
+    Route::get('/', [CartController::class, 'get']);
+    Route::get('/{id}', [CartController::class, 'find']);
+    Route::post('/', [CartController::class, 'create']);
+    Route::post('/{id}', [CartController::class, 'addProduct']);
+    Route::post('/{id}/set-distance', [CartController::class, 'setDistance']);
 });
-Route::prefix('order')->group(function () {
-    Route::get('/', 'OrderController@get');
-    Route::get('/{id}', 'OrderController@find');
-    Route::post('/', 'OrderController@create');
+
+Route::prefix('orders')->group(function () {
+    Route::get('/', [OrderController::class, 'get']);
+    Route::get('/{id}', [OrderController::class, 'find']);
+    Route::post('/', [OrderController::class, 'create']);
 });

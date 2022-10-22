@@ -13,7 +13,7 @@ class Cart extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'carts_products', 'cart_id', 'product_id');
+        return $this->hasMany(CartProduct::class, 'cart_id');
     }
 
     //TODO - transformar em sum

@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedDecimal('distance');
-            $table->string('subtotal');
-            $table->string('shipping');
-            $table->string('total');
+            $table->unsignedDecimal('subtotal');
+            $table->unsignedDecimal('shipping');
+            $table->unsignedDecimal('total');
             $table->timestamps();
         });
     }

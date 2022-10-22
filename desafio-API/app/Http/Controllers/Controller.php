@@ -10,4 +10,9 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public function MyCustomResponse(array $data, int $status)
+    {
+    response()->json($data, $status)->header('X-Header-One', 'Header Value')->send();
+    }
 }
