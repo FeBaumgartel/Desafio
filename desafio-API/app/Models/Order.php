@@ -8,6 +8,8 @@ class Order extends Model
 {
     protected $table = 'orders';
 
+    protected $appends = ['total_weight'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +24,17 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'orders_products', 'order_id', 'product_id');
+        return $this->hasMany(OrderProduct::class, 'order_id');
+    }
+
+    public function getTotalWeightAttribute(){
+        $orderProducts = OrderProduct::with('product')->where('order_id', $this->attributes['id'])->get();
+
+        $totalWeight = 0;
+
+        foreach ($orderProducts as $product){
+            $totalWeight += $product->quantity * $product->product->weight;
+        }
+        return $totalWeight;
     }
 }

@@ -13,13 +13,12 @@ use Illuminate\Support\Facades\DB;
 class OrderController extends Controller
 {
     public function get(Request $request){
-        return Order::get();
+        return Order::withCount('products')->get();
     }
 
     public function find($id){
         return Order::with('products')->findOrFail($id);
     }
-
 
     public function create(OrderRequest $request){
         DB::transaction(function () use ($request){
