@@ -4,13 +4,15 @@
     </head>
     <body>
         <button id="return">return</button> 
+        <button id="create">create</button> 
         <table id="tabela">
             <thead>
-                <th>Nome</th>
-                <th>Peso</th>
-                <th>Valor</th>
-                <th>Estoque</th>
-                <th>Editar</th>
+                <th>id</th>
+                <th>items quantity</th>
+                <th>total weight</th>
+                <th>subtotal</th>
+                <th>shipping</th>
+                <th>total</th>
             </thead>
             <tbody id="corpo">
 
@@ -19,28 +21,31 @@
     </body>
 </html>
 <script src="../js/jquery.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        $.ajax({
-            url: "localhost:8000/api/orders",
-            dataType: "application/json",
-            type: "GET",
-            headers:{contentType: "application/json"},
-            success: function(data){
-                data.forEach(element => {
-                    $("#corpo").append(`<tr><td>${element.name}</td><td>${element.weight}</td><td>${element.value}</td><td>${element.inventory}</td><td onclick="editProduct(${element.id})">edit</td></tr>`)
-                });
-            }
+        axios.get("http://127.0.0.1:8000/api/orders").then(function(data){
+            data.data.forEach(element => {
+                $("#corpo").append(`
+                <tr>
+                    <td>${element.id}</td>
+                    <td>${element.products_count}</td>
+                    <td>${element.total_weight}</td>
+                    <td>${element.subtotal}</td>
+                    <td>${element.shipping}</td>
+                    <td>${element.total}</td>
+                </tr>`)
+            });
         })
     })
-
-    function editProduct(id){
-        
-        window.location = 'form.html?product=' + id;
-    }
 
     $("#return").click(function(){
         
         window.location = '../index.html';
+    })
+
+    $("#create").click(function(){
+        
+        window.location = '../cart/form.html';
     })
 </script>

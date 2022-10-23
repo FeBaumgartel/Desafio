@@ -11,44 +11,44 @@
 </html>
 
 <script src="../js/jquery.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="text/javascript">
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const id = urlParams.get('id')
+    
     $(document).ready(function(){
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const id = urlParams.get('id')
         if(id){
-            $.ajax({
-            url: "localhost:8000/api/products/"+id,
-            dataType: "application/json",
-            type: "GET",
-            headers:{contentType: "application/json"},
-            success: function(data){
+            axios.get("http://127.0.0.1:8000/api/products/"+id).then(function(data){
                 $("#id").val(id)
-                $("#name").val(data.name)
-                $("#weight").val(data.weight)
-                $("#value").val(data.value)
-                $("#inventory").val(data.inventory)
-            }
-        })
+                $("#name").val(data.data.name)
+                $("#weight").val(data.data.weight)
+                $("#value").val(data.data.value)
+                $("#inventory").val(data.data.inventory)
+            })
         }
     })
 
     $("#save").click(function (){
-        $.ajax({
-            url: "localhost:8000/api/products/"+id,
-            dataType: "application/json",
-            type: id ? "PATCH" : "POST",
-            headers:{contentType: "application/json"},
-            data:{
+        if(id){
+            axios.patch("http://127.0.0.1:8000/api/products/"+id, {
                 name:$("#name").val(),
                 weight:$("#weight").val(),
                 value:$("#value").val(),
                 inventory:$("#inventory").val()
-            },
-            success: function(data){
-        window.location.href = 'list.html';
-            }
-        })
+            }).then(function(data){
+                window.location.href = 'list.html';
+            })
+        }else{
+            axios.post("http://127.0.0.1:8000/api/products", {
+                name:$("#name").val(),
+                weight:$("#weight").val(),
+                value:$("#value").val(),
+                inventory:$("#inventory").val()
+            }).then(function(data){
+                window.location.href = 'list.html';
+            })
+        }
     })
 
 </script>
