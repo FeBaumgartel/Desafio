@@ -21,11 +21,11 @@
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const id = urlParams.get('id')
-        axios.get("http://127.0.0.1:8000/api/orders/products"+id).then(function(data){
+        axios.get(`http://127.0.0.1:8000/api/orders/${id}/products`).then(function(data){
             data.data.forEach(element => {
                 $("#corpo").append(`
                 <tr>
-                    <td>${element.name}</td>
+                    <td>${element.product.name}</td>
                     <td>${element.quantity}</td>
                     <td>${element.subtotal}</td>
                 </tr>`)

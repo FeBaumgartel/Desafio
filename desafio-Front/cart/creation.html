@@ -1,0 +1,79 @@
+<html>
+    <body>
+        Product: <select id="product"></select>
+        Quantity: <input type="text" id="quantity">
+<button id="add">add</button>
+
+        <table id="tabela">
+            <thead>
+                <th>name</th>
+                <th>quantity</th>
+                <th>subtotal</th>
+                <th>remove</th>
+            </thead>
+            <tbody id="corpo">
+
+            </tbody>
+        </table> 
+
+
+        
+        Distance: <input type="text" id="distace">
+
+        Subtotal: <span id="subtotal"></span>
+        shipping: <span id="shipping"></span>
+        total: <span id="total"></span>
+    </body>
+</html>
+
+<script src="../js/jquery.js" type="text/javascript"></script>  
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+    var id;
+    $(document).ready(function(){
+        axios.post("http://127.0.0.1:8000/api/carts").then(function(data){
+            id = data.data.id
+            console.log(data);
+        })
+    })
+
+    $("#product").on("focus", function(){
+        axios.get("http://127.0.0.1:8000/api/products").then(function(data){
+            data.data.forEach(element => {
+                $("#product").append(`
+                    <option value="${element.id}">${element.name}</option>
+                `)
+            });
+        })
+    })
+
+    
+    $("#add").click(function(){
+            axios.post("http://127.0.0.1:8000/api/carts/"+id, {
+                product_id:$("#product").val(),
+                quantity:$("#quantity").val(),
+            }).then(function(data){
+                $("#product").val('');
+                $("#quantity").val('');
+                data.data.products.forEach(element => {
+                    $("#corpo").append(`
+                    <tr id="line_${element.id}">
+                        <td>${element.product.name}</td>
+                        <td>${element.quantity}</td>
+                        <td>${element.subtotal}</td>
+                        <td onclick="removeItem(${element.id})">remove</td>
+                    </tr>`)
+                });
+                
+                $("#subtotal").val(data.data.subtotal);
+                $("#shipping").val(data.data.shipping);
+                $("#total").val(data.data.total);
+            })
+    })
+
+    function removeItem(id){
+        axios.delete("http://127.0.0.1:8000/api/carts/items/"+id).then(function(){
+            $("#line_"+id).remove();
+        });
+    }
+</script>

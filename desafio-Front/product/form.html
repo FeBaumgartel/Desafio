@@ -1,10 +1,10 @@
 <html>
     <body>
         <input type="hidden" id="id">
-        <input type="text" id="name">
-        <input type="text" id="weight">
-        <input type="text" id="value">
-        <input type="text" id="inventory">
+        Name: <input type="text" id="name">
+        Weight: <input type="text" id="weight">
+        Value: <input type="text" id="value">
+        Inventory: <input type="text" id="inventory">
 
         <button id="save">save</button>
     </body>
@@ -16,7 +16,7 @@
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get('id')
-    
+
     $(document).ready(function(){
         if(id){
             axios.get("http://127.0.0.1:8000/api/products/"+id).then(function(data){

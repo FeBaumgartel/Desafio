@@ -23,20 +23,20 @@ class ProductController extends Controller
     }
 
     public function create(ProductRequest $request){
-        DB::transaction(function () use ($request){
+        DB::beginTransaction();
             $product = new Product();
             $product->fill($request->only('name','value','weight','inventory'));
             $product->save();
+            DB::commit();
             return $product;
-        });
     }
 
     public function edit(ProductRequest $request, $id){
-        DB::transaction(function () use ($request, $id){
+        DB::beginTransaction();
         $product = Product::findOrFail($id);
         $product->fill($request->only('name','value','weight','inventory'));
         $product->save();
+        DB::commit();
         return $product;
-    });
     }
 }

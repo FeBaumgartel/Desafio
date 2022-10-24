@@ -29,11 +29,13 @@ Route::prefix('carts')->group(function () {
     Route::get('/{id}', [CartController::class, 'find']);
     Route::post('/', [CartController::class, 'create']);
     Route::post('/{id}', [CartController::class, 'addProduct']);
+    Route::delete('/items/{id}', [CartController::class, 'removeProduct']);
     Route::post('/{id}/set-distance', [CartController::class, 'setDistance']);
 });
 
 Route::prefix('orders')->group(function () {
     Route::get('/', [OrderController::class, 'get']);
     Route::get('/{id}', [OrderController::class, 'find']);
+    Route::get('/{id}/products', [OrderController::class, 'productsOrder']);
     Route::post('/', [OrderController::class, 'create']);
 });

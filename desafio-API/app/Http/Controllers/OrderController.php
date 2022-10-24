@@ -21,7 +21,7 @@ class OrderController extends Controller
     }
 
     public function create(OrderRequest $request){
-        DB::transaction(function () use ($request){
+        DB::beginTransaction();
             $order = new Order();
             $cart = Cart::with('products')->find($request->cart_id);
 
@@ -43,7 +43,11 @@ class OrderController extends Controller
             }
             $cart->delete();
 
+            DB::commit();
             return $order;
-        });
+    }
+
+    public function productsOrder($id){
+        return OrderProduct::with('product')->where('order_id', $id)->get();
     }
 }
