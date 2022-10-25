@@ -1,37 +1,84 @@
 <html>
     <head>
-        
+        <title>cart creation</title>
         <link rel="stylesheet" href="../css/style.css">
     </head>
     <body>
-        Product: <select id="product"></select>
-        Quantity: <input type="text" id="quantity">
-        <button id="add">add</button>
+        <div class="input_area_cart">
+            <div class="input_label_cart">
+                Product:
+            </div> 
+            <div class="input_field_cart">
+                <select id="product"></select>
+            </div>
+            
+            <div class="input_label_cart">
+                Quantity:
+            </div> 
+            <div class="input_field_cart">
+                <input type="text" id="quantity">
+            </div>
+            <button id="add">add</button>
+        </div>
 
-        <table id="tabela">
-            <thead>
-                <th>name</th>
-                <th>quantity</th>
-                <th>subtotal</th>
-                <th>remove</th>
-            </thead>
-            <tbody id="corpo">
+        <div class="table">
+            <table id="tabela">
+                <thead>
+                    <th>name</th>
+                    <th>quantity</th>
+                    <th>subtotal</th>
+                    <th>remove</th>
+                </thead>
+                <tbody id="corpo">
+    
+                </tbody>
+            </table> 
+        </div>
 
-            </tbody>
-        </table> 
-        
-        Distance: <input type="text" id="distance">
+        <div class="input_area">
+            <div class="input_label_cart">
+                
+                Distance: 
+            </div>
+            <div class="input_field">
+                <input type="text" id="distance"><br>
+            </div>
+        </div>
+        <div class="input_area">
+            <div class="input_label_cart">
+                
+                Subtotal: 
+            </div>
+            <div class="input_field">
+                <span id="subtotal"></span>
+            </div>
+        </div>
+        <div class="input_area">
+            <div class="input_label_cart">
+                
+                shipping: 
+            </div>
+            <div class="input_field">
+                <span id="shipping"></span>
+            </div>
+        </div>
+        <div class="input_area">
+            <div class="input_label_cart">
+                
+                total: 
+            </div>
+            <div class="input_field">
+                <span id="total"></span>
+            </div>
+        </div>
 
-        Subtotal: <span id="subtotal"></span>
-        shipping: <span id="shipping"></span>
-        total: <span id="total"></span>
 
         <button id="finish">finish</button>
     </body>
 </html>
 
 <script src="../js/jquery.js" type="text/javascript"></script>  
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="../js/axios.min.js"></script>
 <script type="text/javascript">
     var id;
     var produtos = [];

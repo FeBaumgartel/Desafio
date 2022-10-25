@@ -3,7 +3,10 @@
     text-decoration: underline;
 }
 table{
-    display: contents
+    display: contents;
+}
+.table{
+    margin-bottom: 50px;
 }
 
 table thead{
@@ -25,16 +28,54 @@ th, td{
     left: 0;
     height: 100%;
     width: 100%;
-  }
-  
-  .middle {
+}
+
+.middle {
     display: table-cell;
     vertical-align: middle;
-  }
-  
-  .inner {
+}
+
+.inner {
     margin-left: auto;
     margin-right: auto;
     width: 400px;
-    /* Whatever width you want */
-  }
+}
+
+.action_buttons{
+    height: 40px;
+    padding-bottom: 20px;
+}
+
+.list_button {
+    height: 40px;
+    width: 80px;
+}
+
+.input_area {
+    display: flex;
+    padding: 5px;
+}
+.input_label {
+    width: 120px;
+}
+.input_field {
+    width: 200px;
+}
+.input_area_cart {
+    display: flex;
+    padding-bottom: 20px;
+}
+.input_label_cart {
+    width: 60px;
+}
+.input_field_cart {
+    width: 100px;
+}
+
+input{
+    max-width: -webkit-fill-available;
+}
+
+#add{
+    margin-left: 10px;
+}

@@ -1,11 +1,13 @@
 <html>
     <head>
-        <title>index</title>
+        <title>products list</title>
         <link rel="stylesheet" href="../css/style.css">
     </head>
     <body>
-        <button id="return">return</button> 
-        <button id="create">create</button> 
+        <div class="action_buttons">
+            <button class="list_button" id="return">return</button> 
+            <button class="list_button" id="create">create</button> 
+        </div>
         <table id="tabela">
             <thead>
                 <th>Nome</th>
@@ -21,7 +23,7 @@
     </body>
 </html>
 <script src="../js/jquery.js" type="text/javascript"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="../js/axios.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         axios.get("http://127.0.0.1:8000/api/products").then(function(data){
