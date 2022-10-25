@@ -1,8 +1,12 @@
 <html>
+    <head>
+        
+        <link rel="stylesheet" href="../css/style.css">
+    </head>
     <body>
         Product: <select id="product"></select>
         Quantity: <input type="text" id="quantity">
-<button id="add">add</button>
+        <button id="add">add</button>
 
         <table id="tabela">
             <thead>
@@ -15,14 +19,14 @@
 
             </tbody>
         </table> 
-
-
         
-        Distance: <input type="text" id="distace">
+        Distance: <input type="text" id="distance">
 
         Subtotal: <span id="subtotal"></span>
         shipping: <span id="shipping"></span>
         total: <span id="total"></span>
+
+        <button id="finish">finish</button>
     </body>
 </html>
 
@@ -30,15 +34,18 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="text/javascript">
     var id;
+    var produtos = [];
     $(document).ready(function(){
         axios.post("http://127.0.0.1:8000/api/carts").then(function(data){
             id = data.data.id
-            console.log(data);
         })
     })
 
     $("#product").on("focus", function(){
-        axios.get("http://127.0.0.1:8000/api/products").then(function(data){
+        complemento = produtos.length > 0 ? `?ids=[${produtos.join(",")}]` : ''
+        axios.get("http://127.0.0.1:8000/api/products",{
+        params:{ids:produtos}}).then(function(data){
+            $("#product").html('');
             data.data.forEach(element => {
                 $("#product").append(`
                     <option value="${element.id}">${element.name}</option>
@@ -49,26 +56,30 @@
 
     
     $("#add").click(function(){
-            axios.post("http://127.0.0.1:8000/api/carts/"+id, {
+            axios.post("http://127.0.0.1:8000/api/carts/"+id, 
+            {
                 product_id:$("#product").val(),
                 quantity:$("#quantity").val(),
             }).then(function(data){
                 $("#product").val('');
                 $("#quantity").val('');
+                $("#corpo").html('');
                 data.data.products.forEach(element => {
                     $("#corpo").append(`
                     <tr id="line_${element.id}">
                         <td>${element.product.name}</td>
                         <td>${element.quantity}</td>
                         <td>${element.subtotal}</td>
-                        <td onclick="removeItem(${element.id})">remove</td>
+                        <td class="action" onclick="removeItem(${element.id})">remove</td>
                     </tr>`)
                 });
                 
-                $("#subtotal").val(data.data.subtotal);
-                $("#shipping").val(data.data.shipping);
-                $("#total").val(data.data.total);
+                $("#subtotal").html(data.data.subtotal);
+                $("#shipping").html(data.data.shipping);
+                $("#total").html(data.data.total);
             })
+
+            produtos.push($("#product").val())
     })
 
     function removeItem(id){
@@ -76,4 +87,24 @@
             $("#line_"+id).remove();
         });
     }
+
+    $("#distance").change(function(){
+        axios.post(`http://127.0.0.1:8000/api/carts/${id}/set-distance`, {
+            distance:$("#distance").val()
+        }).then(function(data){
+            $("#subtotal").html(data.data.subtotal);
+            $("#shipping").html(data.data.shipping);
+            $("#total").html(data.data.total);
+        });
+
+    })
+
+    $("#finish").click(function(){
+        axios.post("http://127.0.0.1:8000/api/orders", 
+        {
+            cart_id:id
+        }).then(function(data){
+            window.location.href = '../orders/list.html';
+        })
+    })
 </script>

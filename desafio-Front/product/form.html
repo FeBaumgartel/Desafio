@@ -1,7 +1,7 @@
 <html>
     <body>
-        <input type="hidden" id="id">
         Name: <input type="text" id="name">
+        Description: <input type="textarea" id="description">
         Weight: <input type="text" id="weight">
         Value: <input type="text" id="value">
         Inventory: <input type="text" id="inventory">
@@ -20,8 +20,8 @@
     $(document).ready(function(){
         if(id){
             axios.get("http://127.0.0.1:8000/api/products/"+id).then(function(data){
-                $("#id").val(id)
                 $("#name").val(data.data.name)
+                $("#description").val(data.data.description)
                 $("#weight").val(data.data.weight)
                 $("#value").val(data.data.value)
                 $("#inventory").val(data.data.inventory)
@@ -33,6 +33,7 @@
         if(id){
             axios.patch("http://127.0.0.1:8000/api/products/"+id, {
                 name:$("#name").val(),
+                description:$("#description").val(),
                 weight:$("#weight").val(),
                 value:$("#value").val(),
                 inventory:$("#inventory").val()
@@ -42,6 +43,7 @@
         }else{
             axios.post("http://127.0.0.1:8000/api/products", {
                 name:$("#name").val(),
+                description:$("#description").val(),
                 weight:$("#weight").val(),
                 value:$("#value").val(),
                 inventory:$("#inventory").val()

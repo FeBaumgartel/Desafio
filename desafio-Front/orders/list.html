@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>index</title>
+        <link rel="stylesheet" href="../css/style.css">
     </head>
     <body>
         <button id="return">return</button> 
@@ -29,7 +30,7 @@
                 $("#corpo").append(`
                 <tr>
                     <td>${element.id}</td>
-                    <td onclick="openItemsList(${element.id})">${element.products_count}</td>
+                    <td class="action" onclick="openItemsList(${element.id})">${element.products_count}</td>
                     <td>${element.total_weight}</td>
                     <td>${element.subtotal}</td>
                     <td>${element.shipping}</td>

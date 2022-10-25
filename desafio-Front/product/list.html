@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>index</title>
+        <link rel="stylesheet" href="../css/style.css">
     </head>
     <body>
         <button id="return">return</button> 
@@ -31,7 +32,7 @@
                     <td>${element.weight}</td>
                     <td>${element.value}</td>
                     <td>${element.inventory}</td>
-                    <td onclick="editProduct(${element.id})">edit</td>
+                    <td class="action" onclick="editProduct(${element.id})">edit</td>
                 </tr>`)
             });
         })
