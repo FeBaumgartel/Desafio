@@ -7,7 +7,6 @@ use App\Http\Requests\CartRequest;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Product;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -23,38 +22,43 @@ class CartController extends Controller
 
     public function create(){
         DB::beginTransaction();
-            $cart = new Cart();
-            $cart->save();
+        $cart = new Cart();
+        $cart->save();
 
-            DB::commit();
-            return $cart;
+        DB::commit();
+        return $cart;
     }
 
     public function addProduct(CartRequest $request, $id){
         DB::beginTransaction();
-            $cartProduct = new CartProduct();
-            $cartProduct->fill($request->only('product_id', 'quantity'));
+        try {
+        $cartProduct = new CartProduct();
+        $cartProduct->fill($request->only('product_id', 'quantity'));
 
-            $product = Product::find($request->product_id);
+        $product = Product::find($request->product_id);
 
-            $cartProduct->subtotal = $request->quantity * $product->value;
-            $cartProduct->cart_id = $id;
-            $cartProduct->save();
+        $cartProduct->subtotal = $request->quantity * $product->value;
+        $cartProduct->cart_id = $id;
+        $cartProduct->save();
 
-            DB::commit();
+        DB::commit();
             return $this->calcCartValues($id);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getStatus());
+        }
     }
+
     public function removeProduct($id){
         DB::beginTransaction();
         try {
             $cartProduct = CartProduct::findOrFail($id);
-            
+
             $cartId = $cartProduct->cart_id;
             $cartProduct->delete();
 
             $this->calcCartValues($cartId);
             DB::commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], $e->getStatus());
         }
 
@@ -63,6 +67,7 @@ class CartController extends Controller
     public function setDistance(Request $request, $id){
 
         DB::beginTransaction();
+        try {
             $cart = Cart::find($id);
             $cart->distance = $request->distance;
             $shipping = $cart->total_weight * 5;
@@ -73,15 +78,18 @@ class CartController extends Controller
             $cart->save();
             DB::commit();
             return $cart;
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getStatus());
+        }
     }
 
     private function calcCartValues($id){
+        DB::beginTransaction();
         $cart = Cart::with('products.product')->find($id);
 
         $subtotal = 0;
         foreach($cart->products as $product){
-
-            $subtotal += $product->quantity * $product->value;
+            $subtotal += $product->quantity * $product->product->value;
         }
         $cart->subtotal = $subtotal;
 
@@ -92,6 +100,8 @@ class CartController extends Controller
         $cart->shipping = $shipping;
         $cart->total = $cart->shipping + $cart->subtotal;
         $cart->save();
+
+        DB::commit();
         return $cart;
     }
 }

@@ -25,7 +25,7 @@ class ProductController extends Controller
     public function create(ProductRequest $request){
         DB::beginTransaction();
             $product = new Product();
-            $product->fill($request->only('name','value','weight','inventory'));
+            $product->fill($request->only('name','description','value','weight','inventory'));
             $product->save();
             DB::commit();
             return $product;
@@ -34,7 +34,7 @@ class ProductController extends Controller
     public function edit(ProductRequest $request, $id){
         DB::beginTransaction();
         $product = Product::findOrFail($id);
-        $product->fill($request->only('name','value','weight','inventory'));
+        $product->fill($request->only('name','description','value','weight','inventory'));
         $product->save();
         DB::commit();
         return $product;

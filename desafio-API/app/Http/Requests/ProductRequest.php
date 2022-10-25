@@ -16,6 +16,7 @@ class ProductRequest extends FormRequest
     {
         return [
             'name' => 'sometimes|string|max:255',
+            'description' => 'string',
             'value'=> 'sometimes|numeric|regex:/^\d{1,8}(\.\d{1,2})?$/',
             'weight'=> 'sometimes|numeric|regex:/^\d{1,8}(\.\d{1,2})?$/',
             'inventory'=> 'sometimes|integer'
