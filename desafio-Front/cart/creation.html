@@ -37,7 +37,7 @@
 
         <div class="input_area">
             <div class="input_label_cart">
-                
+
                 Distance: 
             </div>
             <div class="input_field">
@@ -46,7 +46,7 @@
         </div>
         <div class="input_area">
             <div class="input_label_cart">
-                
+
                 Subtotal: 
             </div>
             <div class="input_field">
@@ -55,7 +55,7 @@
         </div>
         <div class="input_area">
             <div class="input_label_cart">
-                
+
                 shipping: 
             </div>
             <div class="input_field">
@@ -64,7 +64,7 @@
         </div>
         <div class="input_area">
             <div class="input_label_cart">
-                
+
                 total: 
             </div>
             <div class="input_field">
@@ -73,7 +73,7 @@
         </div>
 
 
-        <button id="finish">finish</button>
+        <button id="finish" disabled>finish</button>
     </body>
 </html>
 
@@ -81,7 +81,7 @@
 <script src="../js/axios.min.js"></script>
 <script type="text/javascript">
     var id;
-    var produtos = [];
+    var products = [];
     $(document).ready(function(){
         axios.post("http://127.0.0.1:8000/api/carts").then(function(data){
             id = data.data.id
@@ -89,9 +89,8 @@
     })
 
     $("#product").on("focus", function(){
-        complemento = produtos.length > 0 ? `?ids=[${produtos.join(",")}]` : ''
         axios.get("http://127.0.0.1:8000/api/products",{
-        params:{ids:produtos}}).then(function(data){
+        params:{ids:products}}).then(function(data){
             $("#product").html('');
             data.data.forEach(element => {
                 $("#product").append(`
@@ -126,7 +125,7 @@
                 $("#total").html(data.data.total);
             })
 
-            produtos.push($("#product").val())
+            products.push($("#product").val())
     })
 
     function removeItem(id){
@@ -143,6 +142,12 @@
             $("#shipping").html(data.data.shipping);
             $("#total").html(data.data.total);
         });
+
+        if($("#distance").val()){
+            $("#finish").removeAttr('disabled')
+        }else{
+            $("#finish").attr('disabled','disabled')
+        }
 
     })
 
