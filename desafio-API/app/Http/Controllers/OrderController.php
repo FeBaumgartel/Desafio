@@ -7,47 +7,41 @@ use App\Http\Requests\OrderRequest;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Repositories\OrderRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    public function get(Request $request){
-        return Order::withCount('products')->get();
+    public function get(){
+        try {
+            OrderRepository::get();
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getStatus());
+        }
     }
 
     public function find($id){
-        return Order::with('products')->findOrFail($id);
+        try {
+            OrderRepository::find($id);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getStatus());
+        }
     }
 
     public function create(OrderRequest $request){
-        DB::beginTransaction();
-            $order = new Order();
-            $cart = Cart::with('products')->find($request->cart_id);
-
-            $order->distance = $cart->distance;
-            $order->shipping = $cart->shipping;
-            $order->subtotal = $cart->subtotal;
-            $order->total = $cart->total;
-            $order->save();
-
-            foreach ($cart->products as $cartProduct){
-                $orderProduct = new OrderProduct();
-                $orderProduct->product_id = $cartProduct->product_id;
-                $orderProduct->quantity = $cartProduct->quantity;
-                $orderProduct->subtotal = $cartProduct->subtotal;
-                $orderProduct->order_id = $order->id;
-                $orderProduct->save();
-
-                $cartProduct->delete();
-            }
-            $cart->delete();
-
-            DB::commit();
-            return $order;
+        try {
+            OrderRepository::create($request->only('cart_id'));
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getStatus());
+        }
     }
 
     public function productsOrder($id){
-        return OrderProduct::with('product')->where('order_id', $id)->get();
+        try {
+            OrderRepository::productsOrder($id);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getStatus());
+        }
     }
 }
