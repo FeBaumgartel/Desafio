@@ -1,5 +1,10 @@
 Banco de dados MySQL com nome "desafio", usuario "root" senha ""
 http-server para executar frontEnd
+npm 8.19.2
 PHP 8.1.11, Laravel 9.36.4 e composer 2.4.3 para executar backEnd
 
 O projeto tem uma tela principal para escolher a listagem que deseja acessar, logo apos escolhes ja abre a tela desejada, na listagem de produtos podemos cadastrar um novo ou editar um ja existente, na tela de compras, podemos visualizar os itens da compra(clicando no numero da quantidade de itens) ou cadastrar uma nova
+
+A escolha de Laravel para a API foi por ser um framework que tenho intimidade e foi usado exclusivamente para a API
+A escolha de frontEnd foi por não ter muita familiaridade com frameworks de frontEnd, por isso escolhi html e css puro com jquery
+A escolha de Banco de dados foi por ser um dos bancos mais famosos
